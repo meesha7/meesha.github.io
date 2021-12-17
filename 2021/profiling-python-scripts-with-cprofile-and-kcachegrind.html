@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Profiling python scripts with cProfile and KCacheGrind</title>
+  <link rel="shortcut icon" type="image/png" href="https://meesha7.github.io/images/favicon-32.png" sizes="32x32">
+  <link rel="shortcut icon" type="image/png" href="https://meesha7.github.io/images/favicon-128.png" sizes="128x128">
+  <link rel="shortcut icon" type="image/png" href="https://meesha7.github.io/images/favicon-192.png" sizes="192x192">
+
+  <meta name="description" content="A personal blog about Python, Linux and related stuff" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://meesha7.github.io/2021/profiling-python-scripts-with-cprofile-and-kcachegrind.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="https://meesha7.github.io/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://meesha7.github.io/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="This is a very simple how-to about profiling python scripts using python's built in cProfile and KCacheGrind to visualize profiling...">
+
+    <meta name="author" content="Meesha">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="Profiling">
+    <meta name="tags" content="Django">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Meesha's blog"/>
+<meta property="og:title" content="Profiling python scripts with cProfile and KCacheGrind"/>
+<meta property="og:description" content="This is a very simple how-to about profiling python scripts using python's built in cProfile and KCacheGrind to visualize profiling..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://meesha7.github.io/2021/profiling-python-scripts-with-cprofile-and-kcachegrind.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2021-03-29 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://meesha7.github.io/author/meesha.html">
+<meta property="article:section" content="articles"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Profiling"/>
+<meta property="article:tag" content="Django"/>
+<meta property="og:image" content="https://meesha7.github.io/theme/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Profiling python scripts with cProfile and KCacheGrind",
+  "headline": "Profiling python scripts with cProfile and KCacheGrind",
+  "datePublished": "2021-03-29 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Meesha",
+    "url": "https://meesha7.github.io/author/meesha.html"
+  },
+  "image": "https://meesha7.github.io/theme/images/home-bg.jpg",
+  "url": "https://meesha7.github.io/2021/profiling-python-scripts-with-cprofile-and-kcachegrind.html",
+  "description": "This is a very simple how-to about profiling python scripts using python's built in cProfile and KCacheGrind to visualize profiling..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <img src="/images/pfp.png" alt="Profile picture" style="width: 200px; text-align: center; border-radius: 50%;">
+    <ul>
+
+              <li role="presentation"><a href="https://meesha7.github.io/pages/about.html">About</a></li>
+
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://meesha7.github.io/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Profiling python scripts with cProfile and KCacheGrind</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://meesha7.github.io/author/meesha.html">Meesha</a>
+            | <time datetime="Monday, March 29, 2021">Monday, March 29, 2021</time>
+        </span>
+            <div class="post-cover cover" style="background-image: url('https://meesha7.github.io/theme/images/home-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>This is a very simple how-to about profiling python scripts using
+python's built in <a href="https://docs.python.org/3/library/profile.html#module-cProfile">cProfile</a>
+and <a href="https://apps.kde.org/en/kcachegrind">KCacheGrind</a> to visualize profiling data.</p>
+<h2>Gathering profiling data</h2>
+<p>Let's assume we have a script called <code>test.py</code>, its content can be for example
+very simply this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Now, to profile this code, we call python with the cProfile module:</p>
+<p><code>python3 -m cProfile -s time -o test.prof test.py</code></p>
+<p>If you call this without the <code>-o</code> flag, you'll get the profiling data
+printed in your terminal:</p>
+<div class="highlight"><pre><span></span><code><span class="mf">13</span> <span class="n">function</span> <span class="n">calls</span> <span class="n">in</span> <span class="mf">10.011</span> <span class="n">seconds</span>
+
+<span class="ow">Or</span><span class="n">dered</span> <span class="n">by</span><span class="p">:</span> <span class="nb">int</span><span class="n">ernal</span> <span class="n">time</span>
+
+<span class="n">ncalls</span>  <span class="kr">to</span><span class="n">ttime</span>  <span class="n">percall</span>  <span class="n">cumtime</span>  <span class="n">percall</span> <span class="n">filename</span><span class="p">:</span><span class="n">lineno</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+    <span class="mf">10</span>   <span class="mf">10.011</span>    <span class="mf">1.001</span>   <span class="mf">10.011</span>    <span class="mf">1.001</span> <span class="err">{</span><span class="n">built</span><span class="o">-</span><span class="n">in</span> <span class="n">method</span> <span class="n">time</span><span class="mf">.</span><span class="n">sleep</span><span class="err">}</span>
+     <span class="mf">1</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>   <span class="mf">10.011</span>   <span class="mf">10.011</span> <span class="n">test</span><span class="mf">.</span><span class="n">py</span><span class="p">:</span><span class="mf">1</span><span class="p">(</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">)</span>
+     <span class="mf">1</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>   <span class="mf">10.011</span>   <span class="mf">10.011</span> <span class="err">{</span><span class="n">built</span><span class="o">-</span><span class="n">in</span> <span class="n">method</span> <span class="n">builtins</span><span class="mf">.</span><span class="n">exec</span><span class="err">}</span>
+     <span class="mf">1</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span> <span class="err">{</span><span class="n">method</span> <span class="err">&#39;</span><span class="n">disable</span><span class="err">&#39;</span> <span class="n">of</span> <span class="err">&#39;</span><span class="n">_lsprof</span><span class="mf">.</span><span class="n">Profiler</span><span class="err">&#39;</span> <span class="n">objects</span><span class="err">}</span>
+</code></pre></div>
+
+<p>KCacheGrind cannot read this file. We need to convert it into a cachegrind
+format. To do that, we can use <a href="https://github.com/pwaller/pyprof2calltree">pyprof2calltree</a>
+(<code>pip install pyprof2calltree</code>). Simply do:</p>
+<p><code>pyprof2calltree.py -i test.prof -o cachegrind.out</code></p>
+<p>Now we are able to open this in KCacheGrind and get a nice output and interactively
+explore our script, which function calls what, how many times and how much time
+is spent there.</p>
+<p><img alt="KCacheGrind output" src="https://meesha7.github.io/images/profiling-python-with-cprofile-and-kcachegrind/kcachegrind.png"></p>
+<p>To make the profiling simpler, I made a tiny bash script to automate these steps:</p>
+<p><code>py3profile.sh</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nv">TIMESTAMP</span><span class="o">=</span><span class="k">$(</span>date +<span class="s2">&quot;%s&quot;</span><span class="k">)</span>
+python3 -m cProfile -s <span class="nb">time</span> -o /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+<span class="k">if</span> <span class="o">[</span> -e /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof <span class="o">]</span>
+<span class="k">then</span>
+    pyprof2calltree -i /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof -o /tmp/cachegrind.out.<span class="nv">$TIMESTAMP</span>
+    kcachegrind /tmp/cachegrind.out.<span class="nv">$TIMESTAMP</span>
+    rm /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof
+<span class="k">fi</span>
+</code></pre></div>
+
+<h2>Profiling Django views</h2>
+<p>To debug Django views, we first need to install
+<a href="https://pypi.org/project/django-extensions/">django-extensions</a> and enable it.
+Just add <code>django_extensions</code> in your <code>INSTALLED_APPS</code>.</p>
+<p>This adds a profiler server for local development that will gather profiling
+data. Since we are interested in using KCacheGrind, the command will look like
+this:</p>
+<p><code>./manage.py runprofileserver --kcachegrind --prof-path &lt;path to cachegrind files&gt;</code>
+(default path is <code>/tmp</code> and the destination folder has to exist, otherwise
+the server will complain). This also enables the <code>--cprofile</code> argument.</p>
+<p>Now we get all we need to explore the profiling data with KCacheGrind.
+You can expect a little bit more function calls before the execution reaches
+your views.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw?text=Profiling python scripts with cProfile and KCacheGrind&amp;url=https://meesha7.github.io/2021/profiling-python-scripts-with-cprofile-and-kcachegrind.html" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://meesha7.github.io/tag/python.html">Python</a><a href="https://meesha7.github.io/tag/profiling.html">Profiling</a><a href="https://meesha7.github.io/tag/django.html">Django</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://meesha7.github.io/images/pfp.png" alt="Meesha" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://meesha7.github.io/author/meesha.html">Meesha</a></h4>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Czech Republic</span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/meesha7"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+            <a class="github-link" href="https://github.com/meesha7" target="_blank"><i class="ic ic-link"></i> GitHub</a>
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://meesha7.github.io/theme/js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="https://meesha7.github.io/theme/js/script.js"></script>
+
+</body>
+</html>

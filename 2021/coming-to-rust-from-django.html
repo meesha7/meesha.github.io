@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Coming to Rust from Django</title>
+  <link rel="shortcut icon" type="image/png" href="https://meesha7.github.io/images/favicon-32.png" sizes="32x32">
+  <link rel="shortcut icon" type="image/png" href="https://meesha7.github.io/images/favicon-128.png" sizes="128x128">
+  <link rel="shortcut icon" type="image/png" href="https://meesha7.github.io/images/favicon-192.png" sizes="192x192">
+
+  <meta name="description" content="A personal blog about Python, Linux and related stuff" />
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="https://meesha7.github.io/2021/coming-to-rust-from-django.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="https://meesha7.github.io/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="https://meesha7.github.io/theme/css/code_blocks/monokai.css" rel="stylesheet">
+
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="As a Day of learning initiative at my job, I decided to try what a simple REST API would look like in Rust. Specifically, coming from...">
+
+    <meta name="author" content="Meesha">
+
+    <meta name="tags" content="Python">
+    <meta name="tags" content="Django">
+    <meta name="tags" content="Rust">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Meesha's blog"/>
+<meta property="og:title" content="Coming to Rust from Django"/>
+<meta property="og:description" content="As a Day of learning initiative at my job, I decided to try what a simple REST API would look like in Rust. Specifically, coming from..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="https://meesha7.github.io/2021/coming-to-rust-from-django.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2021-05-25 00:00:00+02:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="https://meesha7.github.io/author/meesha.html">
+<meta property="article:section" content="articles"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="Django"/>
+<meta property="article:tag" content="Rust"/>
+<meta property="og:image" content="https://meesha7.github.io/theme/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Coming to Rust from Django",
+  "headline": "Coming to Rust from Django",
+  "datePublished": "2021-05-25 00:00:00+02:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Meesha",
+    "url": "https://meesha7.github.io/author/meesha.html"
+  },
+  "image": "https://meesha7.github.io/theme/images/home-bg.jpg",
+  "url": "https://meesha7.github.io/2021/coming-to-rust-from-django.html",
+  "description": "As a Day of learning initiative at my job, I decided to try what a simple REST API would look like in Rust. Specifically, coming from..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <img src="/images/pfp.png" alt="Profile picture" style="width: 200px; text-align: center; border-radius: 50%;">
+    <ul>
+
+              <li role="presentation"><a href="https://meesha7.github.io/pages/about.html">About</a></li>
+
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="https://meesha7.github.io/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Coming to Rust from Django</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="https://meesha7.github.io/author/meesha.html">Meesha</a>
+            | <time datetime="Tuesday, May 25, 2021">Tuesday, May 25, 2021</time>
+        </span>
+            <div class="post-cover cover" style="background-image: url('https://meesha7.github.io/theme/images/home-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>As a <em>Day of learning</em> initiative at my job, I decided to try what a simple
+REST API would look like in Rust. Specifically, coming from Python, how
+difficult would it be to use a statically typed language that doesn't
+offer the same flexibility as dynamically typed languages.</p>
+<p>It's been long due that I dived into Rust more than your basic <em>Hello World!</em>
+example.</p>
+<h2>Choosing the building blocks</h2>
+<p>Coming from Django it just... does a lot of work for me. From routing,
+authentication, form validation to ORM and migrations and what not.
+Having so many extensions published on PyPI is a nice treat, too.</p>
+<p>In the Rust ecosystem, I wasn't much aware of what's available, what's
+the most used, what's the best tool for which job. However, my amazing girlfriend,
+who uses Rust as her primary language of choice, taught me about some of the
+libraries or frameworks, so I already knew some names and saw a couple
+code examples.</p>
+<p>Anyway, there's this great website called <a href="https://www.arewewebyet.org/">Are we web yet?</a>
+Reading the landing page, we see this paragraph:</p>
+<blockquote>
+<p>Rust does not have a dominant framework at the level of Django or Rails. Most Rust frameworks are smaller and modular, similar to Flask or Sinatra. Rust does have a diverse package ecosystem, but you generally have to wire everything up yourself. Expect to put in a little bit of extra set up work to get started. If you are expecting everything bundled up for you, then Rust might not be for you just yet.</p>
+</blockquote>
+<p>Similar to Flask? Great! I know Flask! Maybe it won't be that hard.</p>
+<p>I tried to search for something, that would resemble Django or at least Flask.
+For the web part, I chose <a href="https://rocket.rs/">Rocket</a>. It seems to have
+a clean, easy API, so why not? For the database part, I decided on
+<a href="https://diesel.rs/">Diesel</a> — it has models, migrations and most importantly
+a querying API that is kinda like Django's. We'll get to that.</p>
+<h2>Launching a Rocket</h2>
+<p>First step: a simple GET request with a plain text response. That cannot be hard.</p>
+<p>What I would do in Django:</p>
+<p>Configure routes for an app <code>x</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;ping&#39;</span><span class="p">,</span> <span class="n">views</span><span class="o">.</span><span class="n">ping</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;ping&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Include <code>x</code>'s URLs in the project:</p>
+<div class="highlight"><pre><span></span><code><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="n">path</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;x.urls&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">))</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Add a view function:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">HttpResponse</span>
+
+<span class="k">def</span> <span class="nf">ping</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="s1">&#39;pong&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>And that would be about it. Now the Rocket equivalent:</p>
+<p>My <code>Cargo.toml</code> would look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[dependencies]</span>
+<span class="n">rocket</span> <span class="o">=</span> <span class="s">&quot;0.4.9&quot;</span>
+</code></pre></div>
+
+<p><code>main.rs</code> contains a little bit of magic that I had no idea about:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#![feature(proc_macro_hygiene, decl_macro)]</span><span class="w"></span>
+
+<span class="cp">#[macro_use]</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">rocket</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">mod</span> <span class="nn">views</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">rocket</span>::<span class="n">ignite</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">routes</span><span class="o">!</span><span class="p">[</span><span class="n">views</span>::<span class="n">ping</span><span class="p">])</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>Seeing <code>#[macro_use]</code> everywhere... what is it? It doesn't work without it.
+It has to be before every <code>extern crate</code> according to the docs. And...
+<a href="https://doc.rust-lang.org/1.29.0/book/second-edition/appendix-04-macros.html">oh, it's that simple</a>, alright, so we just bring the crate's macros into the scope.</p>
+<p>The first line? No idea whatsoever.</p>
+<p>In my <code>views/mod.rs</code> I just put this:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/ping&quot;</span><span class="cp">)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">ping</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span> <span class="kt">str</span> <span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="s">&quot;pong&quot;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>And this is very nice, because it looks a lot like Flask:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/ping&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">success</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+   <span class="k">return</span> <span class="s1">&#39;pong&#39;</span>
+</code></pre></div>
+
+<p>Find 5 differences. So far, so good. This seems simple enough, there's even
+less configuration than in Django.</p>
+<h2>Listing users</h2>
+<p>Another simple thing to do might be... retrieving some data from a database!
+Let's do that!</p>
+<p>We'll try a very simple model: a user with <code>id</code> and <code>username</code> fields.
+Again, for illustration, let's start with the Django version.</p>
+<h3>Django example</h3>
+<p>First, I'd add a model for the table I am creating:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The <code>id</code> field here is added automatically, as a primary key with auto increment.
+Let Django create the table:</p>
+<div class="highlight"><pre><span></span><code>./manage.py makemigrations x
+./manage.py migrate
+</code></pre></div>
+
+<p>And we'll insert some rows manually.</p>
+<p>The view function, the most basic version, will look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">list_users</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">users</span><span class="p">),</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The example is very simple, readable, but yeah, there's some magic
+that Django does for us (object managers) and just the dynamic nature
+of Python simplifies things a lot.</p>
+<h3>Creating models and tables</h3>
+<p>And now back to Rust. Now since we're putting together building blocks
+instead of having everything bundled together, it's time to setup
+the database using <code>diesel_cli</code>. There's a very comprehensive guide
+on the <a href="https://diesel.rs/guides/getting-started">diesel website</a>.</p>
+<p>For this example, I'll be using sqlite3:</p>
+<div class="highlight"><pre><span></span><code>diesel setup --database-url test.sqlite3
+</code></pre></div>
+
+<p>To create a model, let's create <code>src/models.rs</code> (as per the guide):</p>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="n">Serialize</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+
+<span class="cp">#[derive(Queryable, Serialize)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">id</span>: <span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">username</span>: <span class="nb">String</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>I think this is quite straightforward. The docs only derive <code>Queryable</code>,
+not <code>Serialize</code>, though, but we'll need to serialize this struct into
+JSON later, so let's do it already now:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[dependencies]</span>
+<span class="n">serde</span> <span class="o">=</span> <span class="p">{</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;1.0.126&quot;</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;derive&quot;</span><span class="p">]</span> <span class="p">}</span>
+</code></pre></div>
+
+<p>Okay, so we've got the model, but unlike Django, Diesel won't create
+the table itself (or rather the guide doesn't mention it, and I didn't
+get much further yet). However, diesel provides an interface to create
+the migrations via <code>diesel migration generate &lt;table_name&gt;</code>. This creates
+a directory with two files: <code>up.sql</code> and <code>down.sql</code>, one for upgrading the
+schema, one for downgrading.</p>
+<p>For our example, they'll look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">-- up.sql</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">users</span> <span class="p">(</span>
+    <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+    <span class="n">username</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="p">);</span>
+<span class="k">CREATE</span> <span class="k">UNIQUE</span> <span class="k">INDEX</span> <span class="n">username_unique</span> <span class="k">ON</span> <span class="n">users</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1">-- down.sql</span>
+
+<span class="k">DROP</span> <span class="k">INDEX</span> <span class="n">username_unique</span><span class="p">;</span>
+<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">users</span><span class="p">;</span>
+</code></pre></div>
+
+<p>To run them, a simple <code>diesel migration run</code> will do the trick.
+At this point, we can confirm the newly created schema by running
+<code>diesel print-schema</code>, the output will look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">table</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">id</span><span class="w"> </span>-&gt; <span class="nc">Integer</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">username</span><span class="w"> </span>-&gt; <span class="nc">Text</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>Which is actually the content of <code>src/schema.rs</code>. This is some macro magic
+I'm yet too new in Rust to understand.</p>
+<h3>Wiring up Rocket with Diesel</h3>
+<p>Luckily, Rocket already comes with a way to use Diesel easily.
+The documentation resides <a href="https://rocket.rs/v0.4/guide/state/#databases">here</a>.</p>
+<p>First, we'll need <code>rocket_contrib</code> crate with features for Diesel:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[dependencies]</span>
+<span class="n">rocket_contrib</span> <span class="o">=</span> <span class="p">{</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;0.4.9&quot;</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;diesel_sqlite_pool&quot;</span><span class="p">]</span> <span class="p">}</span>
+</code></pre></div>
+
+<p>And add some imports to <code>src/main.rs</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[macro_use]</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">diesel</span><span class="p">;</span><span class="w"></span>
+<span class="cp">#[macro_use]</span><span class="w"></span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">rocket_contrib</span><span class="p">;</span><span class="w"></span>
+
+<span class="k">mod</span> <span class="nn">models</span><span class="p">;</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">schema</span><span class="p">;</span><span class="w"></span>
+</code></pre></div>
+
+<p>I was pretty confused about the <code>mod</code> usage here, since I don't use
+the code directly here, yet it somehow didn't work without it.</p>
+<p>Second, add a struct that will hold the database connection:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[database(</span><span class="s">&quot;test_db&quot;</span><span class="cp">)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TestDbConn</span><span class="p">(</span><span class="n">diesel</span>::<span class="n">SqliteConnection</span><span class="p">);</span><span class="w"></span>
+
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>And finally, add the connection to the global state of Rocket:</p>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">rocket</span>::<span class="n">ignite</span><span class="p">()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="n">TestDbConn</span>::<span class="n">fairing</span><span class="p">())</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// .mount(&quot;/&quot;, routes![])</span>
+<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<h3>Adding a view</h3>
+<p>Somehow, <a href="https://rust-analyzer.github.io/">rust-analyzer</a>
+(which is an amazing project btw) was adding imports for me
+behind my back and it ended up with this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// For returning a Json response</span>
+<span class="k">use</span><span class="w"> </span><span class="n">rocket_contrib</span>::<span class="n">json</span>::<span class="n">Json</span><span class="p">;</span><span class="w"></span>
+<span class="c1">// DB connection and user model</span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="p">{</span><span class="n">TestDbConn</span><span class="p">,</span><span class="w"> </span><span class="n">models</span>::<span class="n">User</span><span class="p">};</span><span class="w"></span>
+<span class="c1">// Diesel magic</span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">users</span>::<span class="n">dsl</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="p">{</span><span class="n">QueryDsl</span><span class="p">,</span><span class="w"> </span><span class="n">RunQueryDsl</span><span class="p">};</span><span class="w"></span>
+</code></pre></div>
+
+<p>The view itself looks fairly easy:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/users&quot;</span><span class="cp">)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">list_users</span><span class="p">(</span><span class="n">conn</span>: <span class="nc">TestDbConn</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Json</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">load</span>::<span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">conn</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Json</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>One thing that is sometimes an obstacle for me, coming from Python,
+is Rust's turbofish syntax. I have to tell the compiler to
+<code>load</code> the results into the <code>User</code> struct using <code>::&lt;User&gt;</code>. I mean,
+it's understandable and makes sense, but when you code in Python
+every day, you kinda forget you need it.</p>
+<p>The dereference of the connection (<code>&amp;*conn</code>) just means, that <code>conn: TestDbConn</code>
+is actually wrapping the underlying Diesel connection <code>diesel::SqliteConnection</code>.
+However, the error produced by rustc didn't seem so straightforward to me
+when I first saw it:</p>
+<div class="highlight"><pre><span></span><code>  <span class="o">--&gt;</span> <span class="n">src</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="k">mod</span><span class="p">.</span><span class="n">rs</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">37</span>
+   <span class="o">|</span>
+<span class="mi">10</span> <span class="o">|</span>     <span class="n">let</span> <span class="n">result</span> <span class="o">=</span> <span class="n">users</span><span class="p">.</span><span class="k">load</span><span class="o">::&lt;</span><span class="k">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">conn</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+   <span class="o">|</span>                                     <span class="o">^^^^^</span> <span class="n">the</span> <span class="n">trait</span> <span class="n n-Quoted">`diesel::Connection`</span> <span class="k">is</span> <span class="k">not</span> <span class="n">implemented</span> <span class="k">for</span> <span class="n n-Quoted">`TestDbConn`</span>
+   <span class="o">|</span>
+   <span class="o">=</span> <span class="n">note</span><span class="o">:</span> <span class="n">required</span> <span class="n">because</span> <span class="k">of</span> <span class="n">the</span> <span class="n">requirements</span> <span class="k">on</span> <span class="n">the</span> <span class="n">impl</span> <span class="k">of</span> <span class="n n-Quoted">`LoadQuery&lt;TestDbConn, User&gt;`</span> <span class="k">for</span> <span class="n n-Quoted">`table`</span>
+</code></pre></div>
+
+<p>But basically that means, that we're passing <code>TestDbConn</code> into the <code>load</code>
+method, rather than something that implements the <code>diesel::Connection</code> trait.</p>
+<h3>Getting specific users</h3>
+<p>The last example for this blog post is about getting a specific
+user by ID.</p>
+<p>Now, I don't usually use Django for APIs (I think Flask is better for that),
+and if you're gonna use Django, it's better to use
+<a href="https://www.django-rest-framework.org/">django REST framework</a>
+anyway. But man, did I have to fight Django:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.core</span> <span class="kn">import</span> <span class="n">serializers</span>
+
+<span class="k">def</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">user_id</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">HttpResponse</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">user</span><span class="p">]),</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Honestly, Rust was much more pleasant for this simple example:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/users/&lt;user_id&gt;&quot;</span><span class="cp">)]</span><span class="w"></span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">conn</span>: <span class="nc">TestDbConn</span><span class="p">,</span><span class="w"> </span><span class="n">user_id</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="n">Json</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">user_id</span><span class="p">).</span><span class="n">first</span>::<span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">conn</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">Json</span><span class="p">(</span><span class="n">user</span><span class="p">)),</span><span class="w"></span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">_e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">None</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div>
+
+<p>And Rocket ensures that <code>Some</code> results in a Json response with that object
+and <code>None</code> returns a 404. Plus we get all the benefits from static typing :).</p>
+<h2>Conclusion</h2>
+<p>So this was fun actually! I learned that Rust is not to be feared, we had
+some arguments and misunderstandings between me and rustc, but ultimately
+it was just rustc telling me that I'm doing something I shouldn't be.
+Python will also tell me that, but at runtime instead of compile time.</p>
+<p>I realize there's many frameworks for web stuff in both languages,
+however I really <em>really</em> like Rocket so far. Diesel is not bad either,
+but hopefully I'll get to try sqlx soon, too.</p>
+<p>Rocket seems pretty simple to use. And it's kind of a "batteries included"
+framework. I also have some very basic experience with Tide and Warp,
+but hey, I'm coming from Django and Flask, I need something easy to start off.</p>
+<p>The issues I ran (<strong>as a beginner</strong>) into aren't many, but here's the list:</p>
+<ul>
+<li>Imports: <code>extern crate</code>, <code>use</code> and that macro magic, plus not knowing
+  where to find what to import</li>
+<li>Module system: using <code>mod</code> and <code>crate::</code> specifiers to import modules
+  instead of <code>import mymod</code></li>
+<li>Forgetting about turbofish</li>
+<li>Not knowing what type mismatch sin I committed, because instead of
+  <code>expected String, got i32</code>, I get something like <code>the trait X is not implemented for Y</code>,
+  which is kinda confusing in the beginning</li>
+</ul>
+<p>Overall my impression is that I'll be very happy to try more and more
+of Rust. This blog post was my first independent, possibly-useful-in-the-future
+attempt in Rust, beyond your typical <em>Hello, World!</em> example. Hopefully
+it'll encourage someone else to try Rust :).</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw?text=Coming to Rust from Django&amp;url=https://meesha7.github.io/2021/coming-to-rust-from-django.html" class="twitter-share-button" data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="https://meesha7.github.io/tag/python.html">Python</a><a href="https://meesha7.github.io/tag/django.html">Django</a><a href="https://meesha7.github.io/tag/rust.html">Rust</a>                </aside>
+
+                <div class="clear"></div>
+
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src="https://meesha7.github.io/images/pfp.png" alt="Meesha" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="https://meesha7.github.io/author/meesha.html">Meesha</a></h4>
+                            <span class="post-author-location"><i class="ic ic-location"></i> Czech Republic</span>
+                        <!-- Social linkes in alphabet order. -->
+                            <span class="post-author-github"><a target="_blank" href="https://github.com/meesha7"><i class="ic ic-link"></i> GitHub</a></span>
+                    </div>
+                    <div class="clear"></div>
+                </aside>
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+            <a class="github-link" href="https://github.com/meesha7" target="_blank"><i class="ic ic-link"></i> GitHub</a>
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="https://meesha7.github.io/theme/js/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="https://meesha7.github.io/theme/js/script.js"></script>
+
+</body>
+</html>
