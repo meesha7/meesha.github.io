@@ -153,15 +153,15 @@ very simply this:</p>
 <p><code>python3 -m cProfile -s time -o test.prof test.py</code></p>
 <p>If you call this without the <code>-o</code> flag, you'll get the profiling data
 printed in your terminal:</p>
-<div class="highlight"><pre><span></span><code><span class="mf">13</span> <span class="n">function</span> <span class="n">calls</span> <span class="n">in</span> <span class="mf">10.011</span> <span class="n">seconds</span>
+<div class="highlight"><pre><span></span><code><span class="mf">13</span><span class="w"> </span><span class="n">function</span><span class="w"> </span><span class="n">calls</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="mf">10.011</span><span class="w"> </span><span class="n">seconds</span>
 
-<span class="ow">Or</span><span class="n">dered</span> <span class="n">by</span><span class="p">:</span> <span class="nb">int</span><span class="n">ernal</span> <span class="n">time</span>
+<span class="ow">Or</span><span class="n">dered</span><span class="w"> </span><span class="n">by</span><span class="p">:</span><span class="w"> </span><span class="nb">int</span><span class="n">ernal</span><span class="w"> </span><span class="n">time</span>
 
-<span class="n">ncalls</span>  <span class="kr">to</span><span class="n">ttime</span>  <span class="n">percall</span>  <span class="n">cumtime</span>  <span class="n">percall</span> <span class="n">filename</span><span class="p">:</span><span class="n">lineno</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-    <span class="mf">10</span>   <span class="mf">10.011</span>    <span class="mf">1.001</span>   <span class="mf">10.011</span>    <span class="mf">1.001</span> <span class="err">{</span><span class="n">built</span><span class="o">-</span><span class="n">in</span> <span class="n">method</span> <span class="n">time</span><span class="mf">.</span><span class="n">sleep</span><span class="err">}</span>
-     <span class="mf">1</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>   <span class="mf">10.011</span>   <span class="mf">10.011</span> <span class="n">test</span><span class="mf">.</span><span class="n">py</span><span class="p">:</span><span class="mf">1</span><span class="p">(</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">)</span>
-     <span class="mf">1</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>   <span class="mf">10.011</span>   <span class="mf">10.011</span> <span class="err">{</span><span class="n">built</span><span class="o">-</span><span class="n">in</span> <span class="n">method</span> <span class="n">builtins</span><span class="mf">.</span><span class="n">exec</span><span class="err">}</span>
-     <span class="mf">1</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span>    <span class="mf">0.000</span> <span class="err">{</span><span class="n">method</span> <span class="err">&#39;</span><span class="n">disable</span><span class="err">&#39;</span> <span class="n">of</span> <span class="err">&#39;</span><span class="n">_lsprof</span><span class="mf">.</span><span class="n">Profiler</span><span class="err">&#39;</span> <span class="n">objects</span><span class="err">}</span>
+<span class="n">ncalls</span><span class="w">  </span><span class="kr">to</span><span class="n">ttime</span><span class="w">  </span><span class="n">percall</span><span class="w">  </span><span class="n">cumtime</span><span class="w">  </span><span class="n">percall</span><span class="w"> </span><span class="n">filename</span><span class="p">:</span><span class="n">lineno</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+<span class="w">    </span><span class="mf">10</span><span class="w">   </span><span class="mf">10.011</span><span class="w">    </span><span class="mf">1.001</span><span class="w">   </span><span class="mf">10.011</span><span class="w">    </span><span class="mf">1.001</span><span class="w"> </span><span class="err">{</span><span class="n">built</span><span class="o">-</span><span class="n">in</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="n">time</span><span class="mf">.</span><span class="n">sleep</span><span class="err">}</span>
+<span class="w">     </span><span class="mf">1</span><span class="w">    </span><span class="mf">0.000</span><span class="w">    </span><span class="mf">0.000</span><span class="w">   </span><span class="mf">10.011</span><span class="w">   </span><span class="mf">10.011</span><span class="w"> </span><span class="n">test</span><span class="mf">.</span><span class="n">py</span><span class="p">:</span><span class="mf">1</span><span class="p">(</span><span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="w">     </span><span class="mf">1</span><span class="w">    </span><span class="mf">0.000</span><span class="w">    </span><span class="mf">0.000</span><span class="w">   </span><span class="mf">10.011</span><span class="w">   </span><span class="mf">10.011</span><span class="w"> </span><span class="err">{</span><span class="n">built</span><span class="o">-</span><span class="n">in</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="n">builtins</span><span class="mf">.</span><span class="n">exec</span><span class="err">}</span>
+<span class="w">     </span><span class="mf">1</span><span class="w">    </span><span class="mf">0.000</span><span class="w">    </span><span class="mf">0.000</span><span class="w">    </span><span class="mf">0.000</span><span class="w">    </span><span class="mf">0.000</span><span class="w"> </span><span class="err">{</span><span class="n">method</span><span class="w"> </span><span class="err">&#39;</span><span class="n">disable</span><span class="err">&#39;</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="err">&#39;</span><span class="n">_lsprof</span><span class="mf">.</span><span class="n">Profiler</span><span class="err">&#39;</span><span class="w"> </span><span class="n">objects</span><span class="err">}</span>
 </code></pre></div>
 
 <p>KCacheGrind cannot read this file. We need to convert it into a cachegrind
@@ -176,14 +176,14 @@ is spent there.</p>
 <p><code>py3profile.sh</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
 
-<span class="nv">TIMESTAMP</span><span class="o">=</span><span class="k">$(</span>date +<span class="s2">&quot;%s&quot;</span><span class="k">)</span>
-python3 -m cProfile -s <span class="nb">time</span> -o /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="nv">TIMESTAMP</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s2">&quot;%s&quot;</span><span class="k">)</span>
+python3<span class="w"> </span>-m<span class="w"> </span>cProfile<span class="w"> </span>-s<span class="w"> </span><span class="nb">time</span><span class="w"> </span>-o<span class="w"> </span>/tmp/profile_<span class="nv">$TIMESTAMP</span>.prof<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
 
-<span class="k">if</span> <span class="o">[</span> -e /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof <span class="o">]</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span>-e<span class="w"> </span>/tmp/profile_<span class="nv">$TIMESTAMP</span>.prof<span class="w"> </span><span class="o">]</span>
 <span class="k">then</span>
-    pyprof2calltree -i /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof -o /tmp/cachegrind.out.<span class="nv">$TIMESTAMP</span>
-    kcachegrind /tmp/cachegrind.out.<span class="nv">$TIMESTAMP</span>
-    rm /tmp/profile_<span class="nv">$TIMESTAMP</span>.prof
+<span class="w">    </span>pyprof2calltree<span class="w"> </span>-i<span class="w"> </span>/tmp/profile_<span class="nv">$TIMESTAMP</span>.prof<span class="w"> </span>-o<span class="w"> </span>/tmp/cachegrind.out.<span class="nv">$TIMESTAMP</span>
+<span class="w">    </span>kcachegrind<span class="w"> </span>/tmp/cachegrind.out.<span class="nv">$TIMESTAMP</span>
+<span class="w">    </span>rm<span class="w"> </span>/tmp/profile_<span class="nv">$TIMESTAMP</span>.prof
 <span class="k">fi</span>
 </code></pre></div>
 

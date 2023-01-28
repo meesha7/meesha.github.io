@@ -189,22 +189,22 @@ a querying API that is kinda like Django's. We'll get to that.</p>
 <p>And that would be about it. Now the Rocket equivalent:</p>
 <p>My <code>Cargo.toml</code> would look like this:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[dependencies]</span>
-<span class="n">rocket</span> <span class="o">=</span> <span class="s">&quot;0.4.9&quot;</span>
+<span class="n">rocket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.4.9&quot;</span>
 </code></pre></div>
 
 <p><code>main.rs</code> contains a little bit of magic that I had no idea about:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#![feature(proc_macro_hygiene, decl_macro)]</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#![feature(proc_macro_hygiene, decl_macro)]</span>
 
-<span class="cp">#[macro_use]</span><span class="w"></span>
-<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">rocket</span><span class="p">;</span><span class="w"></span>
+<span class="cp">#[macro_use]</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">rocket</span><span class="p">;</span>
 
-<span class="k">mod</span> <span class="nn">views</span><span class="p">;</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">views</span><span class="p">;</span>
 
-<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">rocket</span>::<span class="n">ignite</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">routes</span><span class="o">!</span><span class="p">[</span><span class="n">views</span>::<span class="n">ping</span><span class="p">])</span><span class="w"></span>
-<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">();</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">rocket</span>::<span class="n">ignite</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">mount</span><span class="p">(</span><span class="s">&quot;/&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">routes</span><span class="o">!</span><span class="p">[</span><span class="n">views</span>::<span class="n">ping</span><span class="p">])</span>
+<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">();</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>Seeing <code>#[macro_use]</code> everywhere... what is it? It doesn't work without it.
@@ -212,10 +212,10 @@ It has to be before every <code>extern crate</code> according to the docs. And..
 <a href="https://doc.rust-lang.org/1.29.0/book/second-edition/appendix-04-macros.html">oh, it's that simple</a>, alright, so we just bring the crate's macros into the scope.</p>
 <p>The first line? No idea whatsoever.</p>
 <p>In my <code>views/mod.rs</code> I just put this:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/ping&quot;</span><span class="cp">)]</span><span class="w"></span>
-<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">ping</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span> <span class="kt">str</span> <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="s">&quot;pong&quot;</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/ping&quot;</span><span class="cp">)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">ping</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="kp">&amp;</span><span class="o">&#39;</span><span class="nb">static</span> <span class="kt">str</span> <span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;pong&quot;</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>And this is very nice, because it looks a lot like Flask:</p>
@@ -239,8 +239,8 @@ Again, for illustration, let's start with the Django version.</p>
 
 <p>The <code>id</code> field here is added automatically, as a primary key with auto increment.
 Let Django create the table:</p>
-<div class="highlight"><pre><span></span><code>./manage.py makemigrations x
-./manage.py migrate
+<div class="highlight"><pre><span></span><code>./manage.py<span class="w"> </span>makemigrations<span class="w"> </span>x
+./manage.py<span class="w"> </span>migrate
 </code></pre></div>
 
 <p>And we'll insert some rows manually.</p>
@@ -259,25 +259,25 @@ instead of having everything bundled together, it's time to setup
 the database using <code>diesel_cli</code>. There's a very comprehensive guide
 on the <a href="https://diesel.rs/guides/getting-started">diesel website</a>.</p>
 <p>For this example, I'll be using sqlite3:</p>
-<div class="highlight"><pre><span></span><code>diesel setup --database-url test.sqlite3
+<div class="highlight"><pre><span></span><code>diesel<span class="w"> </span>setup<span class="w"> </span>--database-url<span class="w"> </span>test.sqlite3
 </code></pre></div>
 
 <p>To create a model, let's create <code>src/models.rs</code> (as per the guide):</p>
-<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="n">Serialize</span><span class="p">;</span><span class="w"></span>
-<span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="n">Serialize</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="o">*</span><span class="p">;</span>
 
-<span class="cp">#[derive(Queryable, Serialize)]</span><span class="w"></span>
-<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">id</span>: <span class="kt">i32</span><span class="p">,</span><span class="w"></span>
+<span class="cp">#[derive(Queryable, Serialize)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">id</span>: <span class="kt">i32</span><span class="p">,</span>
 <span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="n">username</span>: <span class="nb">String</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>I think this is quite straightforward. The docs only derive <code>Queryable</code>,
 not <code>Serialize</code>, though, but we'll need to serialize this struct into
 JSON later, so let's do it already now:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[dependencies]</span>
-<span class="n">serde</span> <span class="o">=</span> <span class="p">{</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;1.0.126&quot;</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;derive&quot;</span><span class="p">]</span> <span class="p">}</span>
+<span class="n">serde</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.0.126&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;derive&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 
 <p>Okay, so we've got the model, but unlike Django, Diesel won't create
@@ -289,28 +289,28 @@ schema, one for downgrading.</p>
 <p>For our example, they'll look like this:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">-- up.sql</span>
 
-<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">users</span> <span class="p">(</span>
-    <span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-    <span class="n">username</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTOINCREMENT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">username</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
 <span class="p">);</span>
-<span class="k">CREATE</span> <span class="k">UNIQUE</span> <span class="k">INDEX</span> <span class="n">username_unique</span> <span class="k">ON</span> <span class="n">users</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="k">UNIQUE</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">username_unique</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">users</span><span class="p">(</span><span class="n">username</span><span class="p">);</span>
 </code></pre></div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">-- down.sql</span>
 
-<span class="k">DROP</span> <span class="k">INDEX</span> <span class="n">username_unique</span><span class="p">;</span>
-<span class="k">DROP</span> <span class="k">TABLE</span> <span class="n">users</span><span class="p">;</span>
+<span class="k">DROP</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">username_unique</span><span class="p">;</span>
+<span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
 </code></pre></div>
 
 <p>To run them, a simple <code>diesel migration run</code> will do the trick.
 At this point, we can confirm the newly created schema by running
 <code>diesel print-schema</code>, the output will look like this:</p>
-<div class="highlight"><pre><span></span><code><span class="n">table</span><span class="o">!</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">id</span><span class="w"> </span>-&gt; <span class="nc">Integer</span><span class="p">,</span><span class="w"></span>
-<span class="w">        </span><span class="n">username</span><span class="w"> </span>-&gt; <span class="nc">Text</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">table</span><span class="o">!</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">users</span><span class="w"> </span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">id</span><span class="w"> </span>-&gt; <span class="nc">Integer</span><span class="p">,</span>
+<span class="w">        </span><span class="n">username</span><span class="w"> </span>-&gt; <span class="nc">Text</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>Which is actually the content of <code>src/schema.rs</code>. This is some macro magic
@@ -320,37 +320,37 @@ I'm yet too new in Rust to understand.</p>
 The documentation resides <a href="https://rocket.rs/v0.4/guide/state/#databases">here</a>.</p>
 <p>First, we'll need <code>rocket_contrib</code> crate with features for Diesel:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[dependencies]</span>
-<span class="n">rocket_contrib</span> <span class="o">=</span> <span class="p">{</span> <span class="n">version</span> <span class="o">=</span> <span class="s">&quot;0.4.9&quot;</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;diesel_sqlite_pool&quot;</span><span class="p">]</span> <span class="p">}</span>
+<span class="n">rocket_contrib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.4.9&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">&quot;diesel_sqlite_pool&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 
 <p>And add some imports to <code>src/main.rs</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#[macro_use]</span><span class="w"></span>
-<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">diesel</span><span class="p">;</span><span class="w"></span>
-<span class="cp">#[macro_use]</span><span class="w"></span>
-<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">rocket_contrib</span><span class="p">;</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#[macro_use]</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">diesel</span><span class="p">;</span>
+<span class="cp">#[macro_use]</span>
+<span class="k">extern</span><span class="w"> </span><span class="k">crate</span><span class="w"> </span><span class="n">rocket_contrib</span><span class="p">;</span>
 
-<span class="k">mod</span> <span class="nn">models</span><span class="p">;</span><span class="w"></span>
-<span class="k">mod</span> <span class="nn">schema</span><span class="p">;</span><span class="w"></span>
+<span class="k">mod</span> <span class="nn">models</span><span class="p">;</span>
+<span class="k">mod</span> <span class="nn">schema</span><span class="p">;</span>
 </code></pre></div>
 
 <p>I was pretty confused about the <code>mod</code> usage here, since I don't use
 the code directly here, yet it somehow didn't work without it.</p>
 <p>Second, add a struct that will hold the database connection:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#[database(</span><span class="s">&quot;test_db&quot;</span><span class="cp">)]</span><span class="w"></span>
-<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TestDbConn</span><span class="p">(</span><span class="n">diesel</span>::<span class="n">SqliteConnection</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#[database(</span><span class="s">&quot;test_db&quot;</span><span class="cp">)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">struct</span> <span class="nc">TestDbConn</span><span class="p">(</span><span class="n">diesel</span>::<span class="n">SqliteConnection</span><span class="p">);</span>
 
-<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
-<span class="p">}</span><span class="w"></span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>And finally, add the connection to the global state of Rocket:</p>
-<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">rocket</span>::<span class="n">ignite</span><span class="p">()</span><span class="w"></span>
-<span class="w">        </span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="n">TestDbConn</span>::<span class="n">fairing</span><span class="p">())</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">rocket</span>::<span class="n">ignite</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="n">attach</span><span class="p">(</span><span class="n">TestDbConn</span>::<span class="n">fairing</span><span class="p">())</span>
 <span class="w">        </span><span class="c1">// .mount(&quot;/&quot;, routes![])</span>
-<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">();</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">launch</span><span class="p">();</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <h3>Adding a view</h3>
@@ -358,21 +358,21 @@ the code directly here, yet it somehow didn't work without it.</p>
 (which is an amazing project btw) was adding imports for me
 behind my back and it ended up with this:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// For returning a Json response</span>
-<span class="k">use</span><span class="w"> </span><span class="n">rocket_contrib</span>::<span class="n">json</span>::<span class="n">Json</span><span class="p">;</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="n">rocket_contrib</span>::<span class="n">json</span>::<span class="n">Json</span><span class="p">;</span>
 <span class="c1">// DB connection and user model</span>
-<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="p">{</span><span class="n">TestDbConn</span><span class="p">,</span><span class="w"> </span><span class="n">models</span>::<span class="n">User</span><span class="p">};</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="p">{</span><span class="n">TestDbConn</span><span class="p">,</span><span class="w"> </span><span class="n">models</span>::<span class="n">User</span><span class="p">};</span>
 <span class="c1">// Diesel magic</span>
-<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">users</span>::<span class="n">dsl</span>::<span class="o">*</span><span class="p">;</span><span class="w"></span>
-<span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="p">{</span><span class="n">QueryDsl</span><span class="p">,</span><span class="w"> </span><span class="n">RunQueryDsl</span><span class="p">};</span><span class="w"></span>
+<span class="k">use</span><span class="w"> </span><span class="k">crate</span>::<span class="n">schema</span>::<span class="n">users</span>::<span class="n">dsl</span>::<span class="o">*</span><span class="p">;</span>
+<span class="k">use</span><span class="w"> </span><span class="n">diesel</span>::<span class="p">{</span><span class="n">QueryDsl</span><span class="p">,</span><span class="w"> </span><span class="n">RunQueryDsl</span><span class="p">};</span>
 </code></pre></div>
 
 <p>The view itself looks fairly easy:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/users&quot;</span><span class="cp">)]</span><span class="w"></span>
-<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">list_users</span><span class="p">(</span><span class="n">conn</span>: <span class="nc">TestDbConn</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Json</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">load</span>::<span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">conn</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/users&quot;</span><span class="cp">)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">list_users</span><span class="p">(</span><span class="n">conn</span>: <span class="nc">TestDbConn</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">Json</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">load</span>::<span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">conn</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
 
-<span class="w">    </span><span class="n">Json</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">Json</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>One thing that is sometimes an obstacle for me, coming from Python,
@@ -384,12 +384,12 @@ every day, you kinda forget you need it.</p>
 is actually wrapping the underlying Diesel connection <code>diesel::SqliteConnection</code>.
 However, the error produced by rustc didn't seem so straightforward to me
 when I first saw it:</p>
-<div class="highlight"><pre><span></span><code>  <span class="o">--&gt;</span> <span class="n">src</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="k">mod</span><span class="p">.</span><span class="n">rs</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">37</span>
-   <span class="o">|</span>
-<span class="mi">10</span> <span class="o">|</span>     <span class="n">let</span> <span class="n">result</span> <span class="o">=</span> <span class="n">users</span><span class="p">.</span><span class="k">load</span><span class="o">::&lt;</span><span class="k">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">conn</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
-   <span class="o">|</span>                                     <span class="o">^^^^^</span> <span class="n">the</span> <span class="n">trait</span> <span class="n n-Quoted">`diesel::Connection`</span> <span class="k">is</span> <span class="k">not</span> <span class="n">implemented</span> <span class="k">for</span> <span class="n n-Quoted">`TestDbConn`</span>
-   <span class="o">|</span>
-   <span class="o">=</span> <span class="n">note</span><span class="o">:</span> <span class="n">required</span> <span class="n">because</span> <span class="k">of</span> <span class="n">the</span> <span class="n">requirements</span> <span class="k">on</span> <span class="n">the</span> <span class="n">impl</span> <span class="k">of</span> <span class="n n-Quoted">`LoadQuery&lt;TestDbConn, User&gt;`</span> <span class="k">for</span> <span class="n n-Quoted">`table`</span>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">src</span><span class="o">/</span><span class="n">users</span><span class="o">/</span><span class="k">mod</span><span class="p">.</span><span class="n">rs</span><span class="o">:</span><span class="mi">10</span><span class="o">:</span><span class="mi">37</span>
+<span class="w">   </span><span class="o">|</span>
+<span class="mi">10</span><span class="w"> </span><span class="o">|</span><span class="w">     </span><span class="n">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="k">load</span><span class="o">::&lt;</span><span class="k">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">conn</span><span class="p">).</span><span class="n">unwrap</span><span class="p">();</span>
+<span class="w">   </span><span class="o">|</span><span class="w">                                     </span><span class="o">^^^^^</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">trait</span><span class="w"> </span><span class="n n-Quoted">`diesel::Connection`</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">not</span><span class="w"> </span><span class="n">implemented</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n n-Quoted">`TestDbConn`</span>
+<span class="w">   </span><span class="o">|</span>
+<span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">note</span><span class="o">:</span><span class="w"> </span><span class="n">required</span><span class="w"> </span><span class="n">because</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">requirements</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">impl</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n n-Quoted">`LoadQuery&lt;TestDbConn, User&gt;`</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n n-Quoted">`table`</span>
 </code></pre></div>
 
 <p>But basically that means, that we're passing <code>TestDbConn</code> into the <code>load</code>
@@ -409,15 +409,15 @@ anyway. But man, did I have to fight Django:</p>
 </code></pre></div>
 
 <p>Honestly, Rust was much more pleasant for this simple example:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/users/&lt;user_id&gt;&quot;</span><span class="cp">)]</span><span class="w"></span>
-<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">conn</span>: <span class="nc">TestDbConn</span><span class="p">,</span><span class="w"> </span><span class="n">user_id</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="n">Json</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">user_id</span><span class="p">).</span><span class="n">first</span>::<span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">conn</span><span class="p">);</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#[get(</span><span class="s">&quot;/users/&lt;user_id&gt;&quot;</span><span class="cp">)]</span>
+<span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">get_user</span><span class="p">(</span><span class="n">conn</span>: <span class="nc">TestDbConn</span><span class="p">,</span><span class="w"> </span><span class="n">user_id</span>: <span class="kt">i32</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="n">Json</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">users</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">user_id</span><span class="p">).</span><span class="n">first</span>::<span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">conn</span><span class="p">);</span>
 
-<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">Json</span><span class="p">(</span><span class="n">user</span><span class="p">)),</span><span class="w"></span>
-<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">_e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">None</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">match</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nb">Ok</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">Json</span><span class="p">(</span><span class="n">user</span><span class="p">)),</span>
+<span class="w">        </span><span class="nb">Err</span><span class="p">(</span><span class="n">_e</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="nb">None</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 
 <p>And Rocket ensures that <code>Some</code> results in a Json response with that object

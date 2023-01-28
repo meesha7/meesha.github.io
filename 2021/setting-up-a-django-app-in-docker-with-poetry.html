@@ -199,65 +199,65 @@ but once we set up a few things, it'll help us create the Docker image.</p>
 <h2>Putting everything into Dockerfile</h2>
 <p>For reference, I will put an example Dockerfile here and then explain
 how it works.</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3</span>
-<span class="k">WORKDIR</span><span class="s"> /usr/src/app</span>
-<span class="k">EXPOSE</span><span class="s"> 8000</span>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/usr/src/app</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
 
 <span class="c"># Install poetry and deps</span>
 <span class="c"># Exporting to requirements.txt will avoid hassle with poetry venv</span>
-<span class="k">COPY</span> pyproject.toml ./
-<span class="k">COPY</span> poetry.lock ./
-<span class="k">RUN</span> pip install poetry
-<span class="k">RUN</span> poetry <span class="nb">export</span> -f requirements.txt --output requirements.txt
-<span class="k">RUN</span> pip install -r requirements.txt
+<span class="k">COPY</span><span class="w"> </span>pyproject.toml<span class="w"> </span>./
+<span class="k">COPY</span><span class="w"> </span>poetry.lock<span class="w"> </span>./
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>poetry
+<span class="k">RUN</span><span class="w"> </span>poetry<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>requirements.txt<span class="w"> </span>--output<span class="w"> </span>requirements.txt
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 
 <span class="c"># Copy project</span>
-<span class="k">COPY</span> manage.py manage.py
-<span class="k">COPY</span> &lt;your app&gt; &lt;your app&gt;
-<span class="k">COPY</span> &lt;your project&gt; &lt;your project&gt;
+<span class="k">COPY</span><span class="w"> </span>manage.py<span class="w"> </span>manage.py
+<span class="k">COPY</span><span class="w"> </span>&lt;your<span class="w"> </span>app&gt;<span class="w"> </span>&lt;your<span class="w"> </span>app&gt;
+<span class="k">COPY</span><span class="w"> </span>&lt;your<span class="w"> </span>project&gt;<span class="w"> </span>&lt;your<span class="w"> </span>project&gt;
 
 <span class="c"># Collect static files, pass dummy DJANGO_SECRET_KEY</span>
 <span class="c"># or else ./manage.py will fail</span>
 <span class="c"># since DJANGO_SECRET_KEY is not available during the build step</span>
-<span class="k">RUN</span> <span class="nv">DJANGO_SECRET_KEY</span><span class="o">=</span>dummy ./manage.py collectstatic
+<span class="k">RUN</span><span class="w"> </span><span class="nv">DJANGO_SECRET_KEY</span><span class="o">=</span>dummy<span class="w"> </span>./manage.py<span class="w"> </span>collectstatic
 
 <span class="c"># Run server</span>
-<span class="k">CMD</span> <span class="p">[</span> <span class="s2">&quot;gunicorn&quot;</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">,</span> <span class="s2">&quot;0.0.0.0:8000&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;your project&gt;.wsgi&quot;</span> <span class="p">]</span>
+<span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;gunicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0:8000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&lt;your project&gt;.wsgi&quot;</span><span class="w"> </span><span class="p">]</span>
 </code></pre></div>
 
 <p>The steps are already somewhat explained with the comments. In more detail now.</p>
 <p>We start with a base python3 image, setup a working directory for the
 project source code and expose the port where <code>gunicorn</code> will be running
 (default is 8000).</p>
-<div class="highlight"><pre><span></span><code><span class="k">FROM</span> <span class="s">python:3</span>
-<span class="k">WORKDIR</span><span class="s"> /usr/src/app</span>
-<span class="k">EXPOSE</span><span class="s"> 8000</span>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">python:3</span>
+<span class="k">WORKDIR</span><span class="w"> </span><span class="s">/usr/src/app</span>
+<span class="k">EXPOSE</span><span class="w"> </span><span class="s">8000</span>
 </code></pre></div>
 
 <p>Then we copy files for Poetry, <code>pyproject.toml</code> and <code>poetry.lock</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">COPY</span> pyproject.toml ./
-<span class="k">COPY</span> poetry.lock ./
+<div class="highlight"><pre><span></span><code><span class="k">COPY</span><span class="w"> </span>pyproject.toml<span class="w"> </span>./
+<span class="k">COPY</span><span class="w"> </span>poetry.lock<span class="w"> </span>./
 </code></pre></div>
 
 <p>After that, we install Poetry itself, use it to export our dependencies
 from the lock file into <code>requirements.txt</code> and then use <code>pip</code> to install
 those frozen dependencies:</p>
-<div class="highlight"><pre><span></span><code><span class="k">RUN</span> pip install poetry
-<span class="k">RUN</span> poetry <span class="nb">export</span> -f requirements.txt --output requirements.txt
-<span class="k">RUN</span> pip install -r requirements.txt
+<div class="highlight"><pre><span></span><code><span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>poetry
+<span class="k">RUN</span><span class="w"> </span>poetry<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-f<span class="w"> </span>requirements.txt<span class="w"> </span>--output<span class="w"> </span>requirements.txt
+<span class="k">RUN</span><span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
 </code></pre></div>
 
 <p>Now the environment is setup and we can copy the project source code
 (actually this step could happen earlier):</p>
-<div class="highlight"><pre><span></span><code><span class="k">COPY</span> manage.py manage.py
-<span class="k">COPY</span> &lt;your app&gt; &lt;your app&gt;
-<span class="k">COPY</span> &lt;your project&gt; &lt;your project&gt;
+<div class="highlight"><pre><span></span><code><span class="k">COPY</span><span class="w"> </span>manage.py<span class="w"> </span>manage.py
+<span class="k">COPY</span><span class="w"> </span>&lt;your<span class="w"> </span>app&gt;<span class="w"> </span>&lt;your<span class="w"> </span>app&gt;
+<span class="k">COPY</span><span class="w"> </span>&lt;your<span class="w"> </span>project&gt;<span class="w"> </span>&lt;your<span class="w"> </span>project&gt;
 </code></pre></div>
 
 <p><code>&lt;your project&gt;</code> is the root folder name and <code>&lt;your app&gt;</code> is each app
 inside your project.</p>
 <p>Now the part about collecting static files from your apps.</p>
-<div class="highlight"><pre><span></span><code><span class="k">RUN</span> <span class="nv">DJANGO_SECRET_KEY</span><span class="o">=</span>dummy ./manage.py collectstatic
+<div class="highlight"><pre><span></span><code><span class="k">RUN</span><span class="w"> </span><span class="nv">DJANGO_SECRET_KEY</span><span class="o">=</span>dummy<span class="w"> </span>./manage.py<span class="w"> </span>collectstatic
 </code></pre></div>
 
 <p>Since this is a build step, <code>./manage.py</code> cannot reach the environment
@@ -271,7 +271,7 @@ so the script doesn't fail and everything is okay. Since this is a build step
 that doesn't in any way interact with the users of your app, it's
 perfectly fine to use any dummy value.</p>
 <p>And finally we start up the web server:</p>
-<div class="highlight"><pre><span></span><code><span class="k">CMD</span> <span class="p">[</span> <span class="s2">&quot;gunicorn&quot;</span><span class="p">,</span> <span class="s2">&quot;-b&quot;</span><span class="p">,</span> <span class="s2">&quot;0.0.0.0:8000&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;your project&gt;.wsgi&quot;</span> <span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="k">CMD</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">&quot;gunicorn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;-b&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;0.0.0.0:8000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&lt;your project&gt;.wsgi&quot;</span><span class="w"> </span><span class="p">]</span>
 </code></pre></div>
 
 <p>Now build the image:</p>
@@ -285,7 +285,7 @@ perfectly fine to use any dummy value.</p>
 <h2>Using Poetry on Heroku</h2>
 <p>For deploying your project on Heroku, you need a <code>Procfile</code> in your
 project's root directory, containing the command to run the server:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">web</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gunicorn project-name.wsgi</span>
+<div class="highlight"><pre><span></span><code><span class="nt">web</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gunicorn project-name.wsgi</span>
 </code></pre></div>
 
 <p>But since Heroku's <code>heroku/python</code> buildpack only detects <code>requirements.txt</code>

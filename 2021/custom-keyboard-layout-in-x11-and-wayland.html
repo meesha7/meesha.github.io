@@ -165,12 +165,12 @@ Each section describes additional combinations or overrides existing keys.</p>
 <p>For overriding certain symbols, you would create a section and include
 the original layout, like so:</p>
 <div class="highlight"><pre><span></span><code><span class="na">xkb_symbols &quot;cz_sk_de&quot; {</span>
-    <span class="na">include &quot;us&quot;</span>
-    <span class="na">name[Group1]</span><span class="o">=</span><span class="s">&quot;Czech Slovak and German (US)&quot;;</span>
+<span class="w">    </span><span class="na">include &quot;us&quot;</span>
+<span class="w">    </span><span class="na">name[Group1]</span><span class="o">=</span><span class="s">&quot;Czech Slovak and German (US)&quot;</span><span class="c1">;</span>
 
-    <span class="na">// Key definitions go here</span>
+<span class="w">    </span><span class="na">// Key definitions go here</span>
 
-    <span class="na">include &quot;level3(ralt_switch)&quot;</span>
+<span class="w">    </span><span class="na">include &quot;level3(ralt_switch)&quot;</span>
 <span class="na">}</span>
 </code></pre></div>
 
@@ -229,14 +229,14 @@ I am talking about a new <em>variant</em> of an existing layout. So, to do that,
 find an existing <code>&lt;layout&gt;</code> section, under which there should be <code>&lt;variantList&gt;</code>.</p>
 <p>For my layout I added this:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;variant&gt;</span>
-  <span class="nt">&lt;configItem&gt;</span>
-    <span class="nt">&lt;name&gt;</span>cz_sk_de<span class="nt">&lt;/name&gt;</span>
-    <span class="nt">&lt;shortDescription&gt;</span>cz_sk_de<span class="nt">&lt;/shortDescription&gt;</span>
-    <span class="nt">&lt;description&gt;</span>English (US) with CZ/SK/DE/FI/NO/IS keys<span class="nt">&lt;/description&gt;</span>
-    <span class="nt">&lt;languageList&gt;</span>
-        <span class="nt">&lt;iso639Id&gt;</span>eng<span class="nt">&lt;/iso639Id&gt;</span>
-    <span class="nt">&lt;/languageList&gt;</span>
-  <span class="nt">&lt;/configItem&gt;</span>
+<span class="w">  </span><span class="nt">&lt;configItem&gt;</span>
+<span class="w">    </span><span class="nt">&lt;name&gt;</span>cz_sk_de<span class="nt">&lt;/name&gt;</span>
+<span class="w">    </span><span class="nt">&lt;shortDescription&gt;</span>cz_sk_de<span class="nt">&lt;/shortDescription&gt;</span>
+<span class="w">    </span><span class="nt">&lt;description&gt;</span>English<span class="w"> </span>(US)<span class="w"> </span>with<span class="w"> </span>CZ/SK/DE/FI/NO/IS<span class="w"> </span>keys<span class="nt">&lt;/description&gt;</span>
+<span class="w">    </span><span class="nt">&lt;languageList&gt;</span>
+<span class="w">        </span><span class="nt">&lt;iso639Id&gt;</span>eng<span class="nt">&lt;/iso639Id&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/languageList&gt;</span>
+<span class="w">  </span><span class="nt">&lt;/configItem&gt;</span>
 <span class="nt">&lt;/variant&gt;</span>
 </code></pre></div>
 
