@@ -261,24 +261,12 @@ th {
     content: '\e804'
 }
 
-.ic-googleplus:before {
-    content: '\e805'
-}
-
-.ic-facebook:before {
-    content: '\e806'
-}
-
 .ic-arrow-right:before {
     content: '\e807'
 }
 
 .ic-arrow-left:before {
     content: '\e808'
-}
-
-.ic-twitter:before {
-    content: '\e809'
 }
 
 .ic-menu:before {
@@ -1262,7 +1250,7 @@ img {
 }
 
 .container .post {
-    padding: 4em 0
+    padding: 3em 0
 }
 
 .container .post:after {
@@ -1412,53 +1400,6 @@ img {
 .post-info {
     margin-top: 4em;
     overflow: hidden
-}
-
-.post-share {
-    max-width: 25%;
-    float: right
-}
-
-.post-share a {
-    display: block;
-    width: 2em;
-    height: 2em;
-    margin: 0.333em 0 0.333em 0.666em;
-    padding: 0;
-    float: left;
-    font-size: 0.75em;
-    line-height: 2em;
-    text-align: center;
-    text-decoration: none;
-    color: #fff;
-    border-radius: 2px;
-    transition: all ease 0.3s
-}
-
-.post-share a:hover,
-.post-share a:focus {
-    background-color: #212226
-}
-
-.post-share a i {
-    color: inherit
-}
-
-.post-share a i:before {
-    width: auto;
-    height: auto
-}
-
-.post-share .twitter {
-    background-color: #3ea9dd
-}
-
-.post-share .facebook {
-    background-color: #3c5a98
-}
-
-.post-share .googleplus {
-    background-color: #d14836
 }
 
 .post-tags {
@@ -1822,15 +1763,10 @@ img {
     html {
         font-size: 50%
     }
-    .post-share,
     .post-tags {
         max-width: none;
         float: none;
         margin: 0 0 2em
-    }
-    .post-share a {
-        margin-left: 0;
-        margin-right: 0.666em
     }
     .post-nav i {
         font-size: 1.5em
